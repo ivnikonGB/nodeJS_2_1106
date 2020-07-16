@@ -28,24 +28,24 @@ export default {
         }
     },
     mounted() {
-        this.$parent.get('/api/basket/').then(d => {
-            this.items = d.contents;
+        this.$parent.get('/api/basket/' + this.$route.path).then(d => {
+            this.items = d.items;
         })
     },
     methods: {
         add(item) {
-            let find = this.items.find(el => el.id_product == item.id_product);
+            let find = this.items.find(el => el._id == item._id);
 
             if (!find) {
                 let newItem = Object.assign({}, item, { quantity: 1 });
-                this.$parent.post('/api/basket/', newItem)
+                this.$parent.post('/api/basket/' + this.$route.path, newItem)
                     .then(res => {
                         if (res.status) {
                             this.items.push(newItem);
                         }
                     });
             } else {
-                this.$parent.put(`/api/basket/${item.id_product}`, { amount: 1 })
+                this.$parent.put(`/api/basket/` + this.$route.path, { amount: 1, _id: find._id })
                     .then(res => {
                         if (res.status) {
                             find.quantity++
@@ -57,14 +57,14 @@ export default {
             let find = this.items.find(el => el.id_product == item.id_product);
 
             if (find.quantity == 1) {
-                this.$parent.delete(`/api/basket/${item.id_product}`)
+                this.$parent.delete(`/api/basket` + this.$route.path, { _id: find._id })
                     .then(res => {
                         if (res.status) {
                             this.items.splice(this.items.indexOf(find), 1);
                         }
                     });
             } else {
-                this.$parent.put(`/api/basket/${item.id_product}`, { amount: -1 })
+                this.$parent.put(`/api/basket/` + this.$route.path, { amount: -1, _id: find._id })
                     .then(res => {
                         if (res.status) {
                             find.quantity--
