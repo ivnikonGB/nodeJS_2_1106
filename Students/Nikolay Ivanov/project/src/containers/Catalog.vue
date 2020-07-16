@@ -1,7 +1,7 @@
 <template>
     <div class="products">
         <item v-for="item of filtered" :key="item.id_product" :item="item"/>
-        <item :type="'temp'" @createnew="addNewCatalogItem"/>
+        <item v-if="$root.$children[0].User.admin" :type="'temp'" @createnew="addNewCatalogItem"/>
     </div>
 </template>
 

@@ -44,6 +44,7 @@ export default {
                 user.id = res._id;
                 user.login = res.login;
                 user.basket = res.basket;
+                user.admin = res.admin;
 
                 this.$router.push('/' + res._id);
             })
@@ -53,6 +54,15 @@ export default {
             {
                 login: this.login,
                 password: this.password
+            })
+            .then(res => {
+                let user = this.$root.$children[0].User;
+
+                user.id = res._id;
+                user.login = res.login;
+                user.basket = res.basket;
+
+                this.$router.push('/' + res._id);
             })
         },
         post(url, item) {

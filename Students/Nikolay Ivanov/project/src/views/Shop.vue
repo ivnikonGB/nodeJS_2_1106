@@ -7,6 +7,8 @@
             <button class="btn-cart" @click="showBasket = !showBasket">Cart</button>
             <Basket ref="basket" v-show="showBasket"/>
         </div>
+        <div class="user">{{ $root.$children[0].User.login }}</div>
+        <a href="/" class="btn-cart">Log Out</a>
     </header>
     <main>
         <Catalog @add="addItem" ref="catalog"/>
