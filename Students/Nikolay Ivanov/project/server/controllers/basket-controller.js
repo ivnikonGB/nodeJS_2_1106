@@ -44,7 +44,7 @@ module.exports = {
                 let basket = basketCollection[0];
                 let _items = basket.items;
                 let find = _items.find(item => item._id == req.body._id);
-                find.quantity += req.body.amount;
+                find.amount += req.body.amount;
                 await basket.updateOne({ items: _items });
                 res.json({ status: true });
             }
@@ -61,7 +61,9 @@ module.exports = {
                 let basket = basketCollection[0];
                 let _items = basket.items;
                 let find = _items.find(item => item._id == req.body._id);
-                await basket.deleteOne({ items: _items });
+                console.log('find: ' + find);
+                _items = [];
+                await basket.updateOne( { items: _items } );
                 res.json({ status: true });
             }
         }

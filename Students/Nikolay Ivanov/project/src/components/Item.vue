@@ -17,7 +17,7 @@
         <template v-if="type=='basket'">
             <div class="product-desc">
                 <p class="product-title">{{ item.name }}</p>
-                <p class="product-quantity">{{ item.quantity }}</p>
+                <p class="product-quantity">{{ item.amount }}</p>
                 <p class="product-single-price">{{ item.price }}</p>
             </div>
             <div class="right-block">
