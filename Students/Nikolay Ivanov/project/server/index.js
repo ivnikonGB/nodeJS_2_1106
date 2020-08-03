@@ -1,22 +1,36 @@
-let express = require('express');
-
+const express = require('express');
+const config = require('config');
 const db = require('mongoose');
-
-db.connect('mongodb://localhost/geekshop', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-let server = express();
-server.use(express.json()); //popozje
 
 const basketRouter = require('./routers/basket-router');
 const catalogRouter = require('./routers/catalog-router');
 const authRouter = require('./routers/auth-router');
+
+const PORT = config.get('port');
+const MONGO_URI = config.get('mongoURI');
+
+const server = express();
+
+server.use(express.json());
 server.use('/basket', basketRouter);
 server.use('/catalog', catalogRouter);
 server.use('/auth', authRouter);
 
-server.listen(8080, () => {
-    console.log('Server is running at port 8080')
-});
+async function start() {
+    try {
+        await db.connect(MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true
+        });
+        console.log('Database connected');
+        server.listen(PORT, () => {
+            console.log(`Server is running at port ${PORT}`)
+        });
+    } catch(e) {
+        console.error('Database connect error: ', e.message);
+        process.exit(1);
+    }
+}
+
+start();
