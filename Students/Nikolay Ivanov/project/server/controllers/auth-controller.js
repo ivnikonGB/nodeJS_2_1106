@@ -1,11 +1,21 @@
+const bcrypt = require('bcryptjs');
+const { validationResult } = require('express-validator');
 const Users = require('../db/models/users');
 
 module.exports = {
     async createAccount(req, res) {
         try {
-            let = { login, password, basket } = req.body;
-            let newItem = await Users.create({
-                login, password, basket
+            const errors = validationResult(req); 
+            if(!errors.isEmpty()){
+                return res.status(400).json({ errors: errors.array() });
+            }
+            const { login, password, basket } = req.body;
+            if(await Users.findOne({ login })) {
+                return res.status(400).json({ message: 'login occupied'});
+            }
+            const hashedPassword = await bcrypt.hash(password, 12);
+            const newItem = await Users.create({
+                login, password: hashedPassword, basket
             });
             res.json( {_id: newItem._id });
         }
@@ -16,9 +26,18 @@ module.exports = {
     },
     async login(req, res) {
         try {
-            let users = await Users.find({ login: req.body.login, password: req.body.password });
+            const errors = validationResult(req); 
+            if(!errors.isEmpty()){
+                return res.status(400).json({ errors: errors.array() });
+            }
+            const { login, password } = req.body;
+            const users = await Users.find({ login });
             if(users.length) {
-                let user = users[0];
+                const user = users[0];
+                const isMatch = await bcrypt.compare(password, user.password);
+                if(!isMatch) {
+                    res.sendStatus(404);    
+                }
                 res.json({
                     _id: user._id,
                     login: user.login,
