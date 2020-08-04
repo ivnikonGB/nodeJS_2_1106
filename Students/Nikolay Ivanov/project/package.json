@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "api": "nodemon server",
-    "fill": "node server/Utils/dbfiller"
+    "fill": "node server/Utils/dbfiller",
+    "dev":"concurrently \"npm run api\" \"npm run serve\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -25,6 +26,7 @@
     "@vue/cli-plugin-babel": "^4.4.4",
     "@vue/cli-plugin-router": "^4.4.4",
     "@vue/cli-service": "^4.4.4",
+    "concurrently": "^5.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.22",
     "nodemon": "^2.0.4",
