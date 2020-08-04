@@ -1,4 +1,5 @@
 {
     "port": 8080,
-    "mongoURI": "mongodb://localhost/geekshop"
+    "mongoURI": "mongodb://localhost/geekshop",
+    "jwtSecret": "The quick brown fox"
 }

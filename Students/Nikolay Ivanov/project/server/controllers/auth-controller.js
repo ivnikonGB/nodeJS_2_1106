@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const Users = require('../db/models/users');
 
 module.exports = {
@@ -36,13 +38,19 @@ module.exports = {
                 const user = users[0];
                 const isMatch = await bcrypt.compare(password, user.password);
                 if(!isMatch) {
-                    res.sendStatus(404);    
+                    return res.sendStatus(404);    
                 }
+                const token = jwt.sign(
+                    { userId: user._id },
+                    config.get('jwtSecret'),
+                    { expiresIn: '1h' }
+                )
                 res.json({
                     _id: user._id,
                     login: user.login,
                     basket: user.basket,
                     admin: user.admin,
+                    token: token
                 })
             } else {
                 res.sendStatus(404);
