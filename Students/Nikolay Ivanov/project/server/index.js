@@ -7,7 +7,7 @@ const catalogRouter = require('./routers/catalog-router');
 const authRouter = require('./routers/auth-router');
 
 const PORT = config.get('port');
-const MONGO_URI = config.get('mongoURI');
+const MONGO_URI = config.get('mongoAtlasURI');
 
 const server = express();
 

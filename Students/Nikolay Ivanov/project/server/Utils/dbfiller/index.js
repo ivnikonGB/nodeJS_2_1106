@@ -6,7 +6,7 @@ const catalog = './server/Utils/dbfiller/catalog.json';
 
 const Products = require('../../db/models/products');
 
-db.connect('mongodb://localhost/geekshop', {
+db.connect('mongodb+srv://ivnikon:2903770@cluster0.drxvs.mongodb.net/geekshop?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
