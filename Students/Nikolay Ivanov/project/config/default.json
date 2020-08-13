@@ -1,6 +1,0 @@
-{
-    "port": 8080,
-    "mongoURI": "mongodb://localhost/geekshop",
-    "mongoAtlasURI": "mongodb+srv://ivnikon:2903770@cluster0.drxvs.mongodb.net/geekshop?retryWrites=true&w=majority",
-    "jwtSecret": "The quick brown fox"
-}
